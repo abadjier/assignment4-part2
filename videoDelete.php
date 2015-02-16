@@ -12,7 +12,7 @@ if ($mysqli->connect_errno) {
 	//echo "Connection OK";
 }
 
-
+//Delete selected record
 if(isset($_GET["id"])){
 	$vId = $_GET["id"];
 	$query = "DELETE FROM video_inventory WHERE videoID=?";
@@ -33,6 +33,21 @@ if(isset($_GET["id"])){
 
 	// close statement		
 	$stmt->close();				
+}
+//Delete all records
+if(isset($_POST["delAll"])){
+	$query = "DELETE FROM video_inventory";
+	
+if(!$stmt = $mysqli->prepare($query)){
+		echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+	}
+//execute
+if (!($stmt->execute())) {
+	echo "Execute failed: " . $stmt->errno . " " . $stmt->error;
+}
+
+// close statement		
+$stmt->close();	
 }
 
 header("Location:videoInventory.php", true);		
